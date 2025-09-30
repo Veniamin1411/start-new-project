@@ -1,0 +1,27 @@
+{
+  "type": "module",
+  "name": "start-new-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "watch": "tsc -w",
+    "dev": "nodemon --inspect dist/index.js",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+<<<<<<< HEAD
+    "body-parser": "^2.2.0",
+=======
+>>>>>>> 90296310ee8080aa17caa807e1c52fabe3680ce4
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.3.1",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  }
+}
