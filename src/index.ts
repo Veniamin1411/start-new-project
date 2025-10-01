@@ -1,5 +1,4 @@
 import express from 'express'
-<<<<<<< HEAD
 import { productsRouter } from './routes/products-router.js'
 import { addressesRouter } from './routes/addresses-router.js'
 const app = express()
@@ -7,10 +6,6 @@ const port = 5000
 
 app.use('/addresses', addressesRouter)
 app.use('/products', productsRouter)
-=======
-import { title } from 'process'
-const app = express()
-const port = 3000
 
 const products = [{id: 1, title: 'tomato'}, {id: 2, title: 'orange'}]
 const addresses = [{id: 1, value: 'Sadova 15'}, {id: 2, value: 'Tsentralna 150'}]
@@ -35,7 +30,7 @@ app.get('/products/:id', (req, res) => {
 
 app.delete('/products/:id', (req, res) => {
   for (let i = 0; i < products.length; i++) {
-    if (products[i].id === +req.params.id) {
+    if (products[i]?.id === +req.params.id) {
       products.splice(i, 1)
       res.sendStatus(204)
       return
@@ -67,8 +62,6 @@ app.get('/addresses/:id', (req, res) => {
     res.sendStatus(404)
   }
 })
-
->>>>>>> 90296310ee8080aa17caa807e1c52fabe3680ce4
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
