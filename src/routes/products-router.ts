@@ -1,7 +1,11 @@
 import { Router } from "express";
 import { productsRepository } from "../repositories/products-repository.js";
+import { body, validationResult } from 'express-validator'
+import { inputValidationMiddleware } from "../middlewares/input-validation-middleware.js";
 
 export const productsRouter = Router({})
+
+const titleValidation = body('title').trim().isLength({min: 3, max: 30}).withMessage('Title length should be form 3 to 10 symbols')
 
 productsRouter.get('/', (req, res) => {
     const foundProducts = productsRepository.findProducts(req.query.title?.toString())
@@ -18,19 +22,20 @@ productsRouter.get('/:id', (req, res) => {
     }
 })
 
-productsRouter.post('/', (req, res) => {
+productsRouter.post('/', titleValidation, inputValidationMiddleware, (req, res) => {
     const newProduct = productsRepository.createProduct(req.body.title)
-    res.sendStatus(201).send(newProduct)
+    res.status(201).send(newProduct)
 })
 
-productsRouter.put('/:id', (req, res) => {
-    const isProductUpdated = productsRepository.updateProduct(+req.params.id, req.body.title)
-        if (isProductUpdated) {
-            const updatedProduct = productsRepository.findProductById(+req.params.id)
-            res.send(updatedProduct)
-        } else {
-            res.sendStatus(404) 
-        }
+productsRouter.put('/:id', titleValidation, inputValidationMiddleware, (req, res) => {
+    const isProductUpdated = productsRepository.updateProduct(+req.params.id!, req.body.title)
+        
+    if (isProductUpdated) {
+        const updatedProduct = productsRepository.findProductById(+req.params.id!)
+        res.send(updatedProduct)
+    } else {
+        res.sendStatus(404) 
+    }
 })
 
 productsRouter.delete('/:id', (req, res) => {

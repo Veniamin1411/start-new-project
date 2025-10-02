@@ -5,6 +5,7 @@ import { addressesRouter } from './routes/addresses-router.js'
 const app = express()
 const port = 5000
 
+app.use(express.json())
 app.use('/addresses', addressesRouter)
 app.use('/products', productsRouter)
 
