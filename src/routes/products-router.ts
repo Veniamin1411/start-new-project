@@ -1,19 +1,19 @@
 import { Router } from "express";
-import { productsRepository } from "../repositories/products-repository.js";
-import { body, validationResult } from 'express-validator'
+import { productsRepository, ProductType } from "../repositories/products-repository.js";
+import { body } from 'express-validator'
 import { inputValidationMiddleware } from "../middlewares/input-validation-middleware.js";
 
 export const productsRouter = Router({})
 
 const titleValidation = body('title').trim().isLength({min: 3, max: 30}).withMessage('Title length should be form 3 to 10 symbols')
 
-productsRouter.get('/', (req, res) => {
-    const foundProducts = productsRepository.findProducts(req.query.title?.toString())
+productsRouter.get('/', async (req, res) => {
+    const foundProducts: ProductType[] = await productsRepository.findProducts(req.query.title?.toString())
     res.send(foundProducts)
 })
 
-productsRouter.get('/:id', (req, res) => {
-    let foundProductById = productsRepository.findProductById(+req.params.id)
+productsRouter.get('/:id', async (req, res) => {
+    let foundProductById: ProductType | null = await productsRepository.findProductById(+req.params.id)
 
     if (foundProductById) {
         res.send(foundProductById)
@@ -22,13 +22,13 @@ productsRouter.get('/:id', (req, res) => {
     }
 })
 
-productsRouter.post('/', titleValidation, inputValidationMiddleware, (req, res) => {
-    const newProduct = productsRepository.createProduct(req.body.title)
+productsRouter.post('/', titleValidation, inputValidationMiddleware, async (req, res) => {
+    const newProduct: ProductType = await productsRepository.createProduct(req.body.title)
     res.status(201).send(newProduct)
 })
 
-productsRouter.put('/:id', titleValidation, inputValidationMiddleware, (req, res) => {
-    const isProductUpdated = productsRepository.updateProduct(+req.params.id!, req.body.title)
+productsRouter.put('/:id', titleValidation, inputValidationMiddleware, async (req, res) => {
+    const isProductUpdated = await productsRepository.updateProduct(+req.params.id!, req.body.title)
         
     if (isProductUpdated) {
         const updatedProduct = productsRepository.findProductById(+req.params.id!)
