@@ -1,6 +1,6 @@
 export type ProductType = {
-    id: Number
-    title: String
+    id: number
+    title: string
 }
 
 const products: ProductType[] = [{id: 1, title: 'tomato'}, {id: 2, title: 'orange'}]

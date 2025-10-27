@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { productsRepository, ProductType } from "../repositories/products-repository.js";
+import { productsRepository, ProductType } from "../repositories/products-in-memory-repository.js";
 import { body } from 'express-validator'
 import { inputValidationMiddleware } from "../middlewares/input-validation-middleware.js";
 
@@ -38,8 +38,8 @@ productsRouter.put('/:id', titleValidation, inputValidationMiddleware, async (re
     }
 })
 
-productsRouter.delete('/:id', (req, res) => {
-    const isProductDeleted = productsRepository.deleteProduct(+req.params.id)
+productsRouter.delete('/:id', async (req, res) => {
+    const isProductDeleted = await productsRepository.deleteProduct(+req.params.id)
     if (isProductDeleted) {
       res.sendStatus(204)
     } else {
