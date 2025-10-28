@@ -8,9 +8,6 @@ export type ProductType = {
 const uri = process.env.mongoURI || "mongodb://127.0.0.1:27017"
 
 const client = new MongoClient(uri)
-const db = client.db('shop')
-export const productsCollection = db.collection<ProductType>('products')
-
 
 export async function runDb() {
     try {
@@ -24,3 +21,6 @@ export async function runDb() {
         await client.close()
     }
 }
+
+const db = client.db('shop')
+export const productsCollection = db.collection<ProductType>('products')
