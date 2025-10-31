@@ -2,7 +2,7 @@ import { Router } from "express";
 import { productsService } from "../domain/products-service.js"; 
 import { inputValidationMiddleware } from "../middlewares/input-validation-middleware.js";
 import { body } from "express-validator";
-import { ProductType } from "../repositories/db.js";
+import { ProductType } from "../repositories/types.js"; 
 
 export const productsRouter = Router({})
 

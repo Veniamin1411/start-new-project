@@ -1,7 +1,4 @@
-export type ProductType = {
-    id: number
-    title: string
-}
+import { ProductType } from "./types.js" 
 
 const products: ProductType[] = [{id: 1, title: 'tomato'}, {id: 2, title: 'orange'}]
 

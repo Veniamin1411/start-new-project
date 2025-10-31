@@ -1,5 +1,5 @@
 import { productsCollection } from "./db.js"
-import { ProductType } from "./db.js"
+import { ProductType } from "./types.js"
 
 export const productsRepository = {
     async findProducts(title: string | null | undefined): Promise<ProductType[]> {

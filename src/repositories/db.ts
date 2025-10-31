@@ -1,9 +1,7 @@
 import {MongoClient} from 'mongodb'
+import { ProductType } from './types.js'
+import { UserDBType } from './types.js'
 
-export type ProductType = {
-    id: number
-    title: string
-}
 
 const uri = process.env.mongoURI || "mongodb://127.0.0.1:27017"
 
@@ -24,3 +22,4 @@ export async function runDb() {
 
 const db = client.db('shop')
 export const productsCollection = db.collection<ProductType>('products')
+export const usersCollection = db.collection<UserDBType>('users')
