@@ -1,6 +1,5 @@
 import { UserDBType } from "./types.js"
 import { usersCollection } from "./db.js"
-import { createSecureContext } from "tls"
 import { ObjectId } from "mongodb"
 
 export const usersRepository = {

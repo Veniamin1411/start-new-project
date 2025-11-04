@@ -1,9 +1,10 @@
 import {MongoClient} from 'mongodb'
 import { ProductType } from './types.js'
 import { UserDBType } from './types.js'
+import { settings } from '../settings.js'
 
 
-const uri = process.env.mongoURI || "mongodb://127.0.0.1:27017"
+const uri = settings.MONGO_URI
 
 const client = new MongoClient(uri)
 
