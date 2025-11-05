@@ -18,7 +18,7 @@ export const productsRepository = {
     },
 
     async createProduct(newProduct: ProductType): Promise<ProductType> {
-        const result = await productsCollection.insertOne(newProduct)
+        await productsCollection.insertOne(newProduct)
         return newProduct
     },
 

@@ -5,6 +5,7 @@ import bodyParser from 'body-parser'
 import { runDb } from './repositories/db.js'
 import { usersRouter } from './routes/users-router.js'
 import { authRouter } from './routes/auth-router.js'
+import { feedbacksRouter } from './routes/feedbacks-router.js'
 
 const app = express()
 const port = process.env.PORT || 5000
@@ -17,6 +18,7 @@ app.use('/addresses', addressesRouter)
 app.use('/products', productsRouter)
 app.use('/users', usersRouter)
 app.use('/login', authRouter)
+app.use('/feedbacks', feedbacksRouter)
 
 const startApp = async () => {
     await runDb()

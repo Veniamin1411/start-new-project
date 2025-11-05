@@ -11,12 +11,12 @@ export const usersRepository = {
     },
 
     async createUser(user: UserDBType): Promise<UserDBType> {
-        const result = await usersCollection.insertOne(user)
+        await usersCollection.insertOne(user)
         return user
     },
 
     async findUserById(id: ObjectId): Promise<UserDBType | null> {
-        let user = await usersCollection.findOne({_id: id})
+        let user = await usersCollection.findOne({_id: ObjectId})
         if (user) {
             return user
         } else {
@@ -29,5 +29,3 @@ export const usersRepository = {
         return user
     }
 }
-
-export const repositoryDB = {}
