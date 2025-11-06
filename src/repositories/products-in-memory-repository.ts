@@ -1,4 +1,4 @@
-import { ProductType } from "./types.js" 
+import { ProductType } from "./db-types.js" 
 
 const products: ProductType[] = [{id: 1, title: 'tomato'}, {id: 2, title: 'orange'}]
 

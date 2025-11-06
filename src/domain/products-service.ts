@@ -1,5 +1,5 @@
 import { productsRepository } from "../repositories/products-db-repository.js"
-import { ProductType } from "../repositories/types.js" 
+import { ProductType } from "../repositories/db-types.js" 
 
 export const productsService = {
     async findProducts(title: string | null | undefined): Promise<ProductType[]> {

@@ -1,9 +1,9 @@
-import { UserDBType } from "../repositories/types.js";
+import { UserAccountDBType } from "../repositories/db-types.js";
 import jwt from 'jsonwebtoken'
 import { settings } from "../settings.js";
 
 export const jwtService = {
-    async createJWT(user: UserDBType) {
+    async createJWT(user: UserAccountDBType) {
         const token = jwt.sign({userId: user._id}, settings.JWT_SECRET, {expiresIn: '1h'})
         return token
     },

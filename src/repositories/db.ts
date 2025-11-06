@@ -1,5 +1,5 @@
 import {MongoClient} from 'mongodb'
-import { FeedbackDBType, UserDBType, ProductType } from './types.js'
+import { FeedbackDBType, UserAccountDBType, ProductType } from './db-types.js'
 import { settings } from '../settings.js'
 
 
@@ -22,5 +22,5 @@ export async function runDb() {
 
 const db = client.db('shop')
 export const productsCollection = db.collection<ProductType>('products')
-export const usersCollection = db.collection<UserDBType>('users')
+export const usersCollection = db.collection<UserAccountDBType>('users')
 export const feedbacksCollection = db.collection<FeedbackDBType>('feedbacks')

@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import { feedbacksCollection } from "./db.js";
-import { FeedbackDBType } from "./types.js";
+import { FeedbackDBType } from "./db-types.js";
 
 export const feedbacksRepository = {
     async getAllFeedbacks(): Promise<FeedbackDBType[]> {

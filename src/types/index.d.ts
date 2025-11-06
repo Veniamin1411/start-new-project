@@ -1,4 +1,4 @@
-import { UserDBType } from "../repositories/types.ts";
+import { UserDBType } from "../repositories/db-types.ts";
 
 declare global {
     declare namespace Express {
