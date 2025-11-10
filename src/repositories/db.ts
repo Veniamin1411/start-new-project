@@ -4,12 +4,11 @@ import { settings } from '../settings.js'
 import mongoose from 'mongoose'
 import { feedbackSchema, productSchema, userSchema } from './schemas.js'
 
-const dbName = 'mongoose-example'
-
 const uri = settings.MONGO_URI
 
 //const client = new MongoClient(uri)
 
+export const dbName = 'shop'
 export const UserModel = mongoose.model('users', userSchema)
 export const FeedbacksModel = mongoose.model('feedbacks', feedbackSchema)
 export const ProductsModel = mongoose.model('products', productSchema)

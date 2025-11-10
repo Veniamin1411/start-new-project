@@ -11,14 +11,14 @@ export const userAccountSchema = new mongoose.Schema<UserAccountType>({
 
 export const sentEmailSchema = new mongoose.Schema<SentEmailType>({
     sentDate: Date
-})
+}, { _id: false })
 
 export const emailConfirmationSchema = new mongoose.Schema<EmailConfirmationType>({
     isConfirmed: Boolean,
     confirmationCode: String,
     expirationDate: Date,
-    sentEmails: sentEmailSchema
-})
+    sentEmails: { type: [sentEmailSchema], default: [] }
+}, { _id: false })
 
 export const userSchema = new mongoose.Schema<UserAccountDBType>({
     accountData: userAccountSchema,

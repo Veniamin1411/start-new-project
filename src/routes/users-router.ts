@@ -5,11 +5,6 @@ import { ObjectId } from "mongodb";
 
 export const usersRouter = Router({})
 
-usersRouter.post('/', async (req, res) => {
-    const user = await authService.createUser(req.body.login, req.body.email, req.body.password)
-    res.status(201).send(user)
-})
-
 usersRouter.get('/', async (req, res) => {
     const users = await usersService.getAllUsers()
     res.send(users)
