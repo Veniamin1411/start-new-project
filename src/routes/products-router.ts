@@ -2,19 +2,19 @@ import { Router } from "express";
 import { productsService } from "../domain/products-service.js"; 
 import { inputValidationMiddleware } from "../middlewares/input-validation-middleware.js";
 import { body } from "express-validator";
-import { ProductType } from "../repositories/db-types.js"; 
+import { ProductDBType } from "../repositories/db-types.js"; 
 
 export const productsRouter = Router({})
 
 const titleValidation = body('title').trim().isLength({min: 3, max: 30}).withMessage('Title length should be form 3 to 10 symbols')
 
 productsRouter.get('/', async (req, res) => {
-    const foundProducts: ProductType[] = await productsService.findProducts(req.query.title?.toString())
+    const foundProducts: ProductDBType[] = await productsService.findProducts(req.query.title?.toString())
     res.send(foundProducts)
 })
 
 productsRouter.get('/:id', async (req, res) => {
-    let foundProductById: ProductType | null = await productsService.findProductById(+req.params.id)
+    let foundProductById: ProductDBType | null = await productsService.findProductById(+req.params.id)
 
     if (foundProductById) {
         res.send(foundProductById)
@@ -25,7 +25,7 @@ productsRouter.get('/:id', async (req, res) => {
 
 productsRouter.post('/', titleValidation, inputValidationMiddleware, async (req, res) => {
     debugger
-    const newProduct: ProductType = await productsService.createProduct(req.body.title)
+    const newProduct: ProductDBType = await productsService.createProduct(req.body.title)
     res.status(201).send(newProduct)
 })
 

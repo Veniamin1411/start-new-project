@@ -1,22 +1,20 @@
 import { UserAccountDBType } from "./db-types.js"
-import { usersCollection } from "./db.js"
+import { UserModel } from "./db.js"
 import { ObjectId } from "mongodb"
 
 export const usersRepository = {
     async getAllUsers(): Promise<UserAccountDBType[]> {
-        return usersCollection
-        .find()
-        .sort('createdAt', -1)
-        .toArray()
+        const users = await UserModel.find({}).lean()
+        return users
     },
 
     async createUser(user: UserAccountDBType): Promise<UserAccountDBType> {
-        const result = await usersCollection.insertOne(user)
+        await UserModel.insertOne(user)
         return user
     },
 
     async findUserById(id: ObjectId): Promise<UserAccountDBType | null> {
-        let user = await usersCollection.findOne({_id: ObjectId})
+        const user = await UserModel.findOne({_id: id}).lean<UserAccountDBType>()
         if (user) {
             return user
         } else {
@@ -24,18 +22,28 @@ export const usersRepository = {
         }
     },
 
+    async updateUser(id: ObjectId, updateData: Partial<UserAccountDBType>): Promise<boolean> {
+        const result = await UserModel.updateOne({_id: id}, {$set: updateData})
+        return result.modifiedCount === 1
+    },
+
+    async deleteUser(id: ObjectId): Promise<boolean> {
+        const result = await UserModel.deleteOne({_id: id})
+        return result.deletedCount === 1
+    },
+
     async findByLoginOrEmail(loginOrEmail: string) {
-        const user = await usersCollection.findOne({ $or: [{'accountData.email': loginOrEmail}, {'accountData.userName': loginOrEmail}]})
+        const user = await UserModel.findOne({ $or: [{'accountData.email': loginOrEmail}, {'accountData.userName': loginOrEmail}]})
         return user
     },
 
     async findUserByConfirmationCode(emailConfirmationCode: string) {
-        const user = await usersCollection.findOne({'emailConfirmation.confirmationCode': emailConfirmationCode})
+        const user = await UserModel.findOne({'emailConfirmation.confirmationCode': emailConfirmationCode})
         return user
     },
 
-    async updateConfirmation(_id: ObjectId) {
-        let result = await usersCollection.updateOne({_id}, {$set: {'emailConfirmation.isConfirmed': true}})
+    async updateConfirmation(id: ObjectId) {
+        let result = await UserModel.updateOne({id}, {$set: {'emailConfirmation.isConfirmed': true}})
         return result.modifiedCount === 1
     }
 }

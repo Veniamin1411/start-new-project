@@ -1,9 +1,9 @@
-import { ProductType } from "./db-types.js" 
+import { ProductInMemoryType } from "./db-types.js" 
 
-const products: ProductType[] = [{id: 1, title: 'tomato'}, {id: 2, title: 'orange'}]
+const products: ProductInMemoryType[] = [{id: 1, title: 'tomato'}, {id: 2, title: 'orange'}]
 
 export const productsRepository = {
-    async findProducts(title: string | null | undefined): Promise<ProductType[]> {
+    async findProducts(title: string | null | undefined): Promise<ProductInMemoryType[]> {
         if (title) {
             let filteredProducts = products.filter(p => p.title.indexOf(title) > -1)
             return filteredProducts
@@ -12,7 +12,7 @@ export const productsRepository = {
         }
     },
 
-    async findProductById(id: number): Promise<ProductType | null> {
+    async findProductById(id: number): Promise<ProductInMemoryType | null> {
         let foundProductById = products.find(p => p.id === id)
         if (foundProductById) {
             return foundProductById
@@ -21,7 +21,7 @@ export const productsRepository = {
         }
     },
 
-    async createProduct(title: string): Promise<ProductType> {
+    async createProduct(title: string): Promise<ProductInMemoryType> {
         const newProduct = {
             id: +(new Date()),
             title: title

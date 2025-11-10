@@ -1,20 +1,21 @@
 import { ObjectId } from "mongodb";
-import { feedbacksCollection } from "./db.js";
+import { FeedbacksModel } from "./db.js";
 import { FeedbackDBType } from "./db-types.js";
 
 export const feedbacksRepository = {
     async getAllFeedbacks(): Promise<FeedbackDBType[]> {
-        return feedbacksCollection.find().toArray()
+        return FeedbacksModel.find({}).lean()
     },
 
-    async createFeedback(comment: string, userId: ObjectId): Promise<FeedbackDBType> {
+    async createFeedback(comment: string, userId: number): Promise<FeedbackDBType> {
         const newFeedback: FeedbackDBType = {
-            _id: new ObjectId(),
+            _id: new ObjectId,
+            id: +(new Date()),
             comment,
             userId,
             createdAt: new Date()
         } 
-        await feedbacksCollection.insertOne(newFeedback)
+        await FeedbacksModel.insertOne(newFeedback)
         return newFeedback
     }
 }

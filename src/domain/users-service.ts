@@ -10,4 +10,12 @@ export const usersService = {
     async findUserById(id: ObjectId): Promise<UserAccountDBType | null> {
         return usersRepository.findUserById(id)
     },
+
+    async updateUser(id: ObjectId, updateData: Partial<UserAccountDBType>): Promise<boolean> {
+        return usersRepository.updateUser(id, updateData)
+    },
+
+    async deleteUser(id: ObjectId): Promise<boolean> {
+        return usersRepository.deleteUser(id)
+    }
 }

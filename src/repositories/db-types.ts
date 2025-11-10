@@ -1,11 +1,17 @@
-import { ObjectId, WithId } from "mongodb"
+import { WithId } from "mongodb"
 
-export type ProductType = {
+export type ProductInMemoryType = {
     id: number
     title: string
 }
 
+export type ProductDBType = WithId<{
+    id: number
+    title: string
+}>
+
 export type UserAccountType = {
+    id: number
     email: string
     userName: string
     passwordHash: string
@@ -28,12 +34,12 @@ export type SentEmailType = {
     sentDate: Date
 }
 
-export type FeedbackDBType = {
-    _id: ObjectId
+export type FeedbackDBType = WithId<{
+    id: number
     comment: string
-    userId: ObjectId
+    userId: number
     createdAt: Date
-}
+}>
 
 export type RegistrationDataType = {
     ip: string
