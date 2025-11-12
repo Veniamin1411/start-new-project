@@ -7,7 +7,7 @@ export const feedbacksService = {
         return feedbacksRepository.getAllFeedbacks()
     },
 
-    async sendFeedback(comment: string, userId: number): Promise<FeedbackDBType> {
+    async sendFeedback(comment: string, userId: ObjectId): Promise<FeedbackDBType> {
         return feedbacksRepository.createFeedback(comment, userId)
     }
 }

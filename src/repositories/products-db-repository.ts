@@ -2,34 +2,24 @@ import { ProductsModel } from "./db.js"
 import { ProductDBType } from "./db-types.js"
 
 export const productsRepository = {
-    async findProducts(title: string | null | undefined): Promise<ProductDBType[]> {
-        
-        const filter: any = {}
-        if (title) {
-            filter.title = {$regex: title}
-        }
-        
-        return ProductsModel.find(filter).lean()
+    async getAllProducts(): Promise<ProductDBType[]> {
+        return ProductsModel.find({}).lean()
     },
 
-    async findProductById(id: number): Promise<ProductDBType | null> {
-        let foundProductById: ProductDBType | null = await ProductsModel.findOne({id: id})
-        return foundProductById
+    async getProductById(id: string): Promise<ProductDBType | null> {
+        return await ProductsModel.findById(id)
     },
 
-    async createProduct(newProduct: ProductDBType): Promise<ProductDBType> {
-        await ProductsModel.insertOne(newProduct)
-        return newProduct
+    async createProduct(product: ProductDBType): Promise<ProductDBType> {
+        return await ProductsModel.create(product)
     },
 
-    async updateProduct(id: number, title: string): Promise<Boolean> {
-        const result = await ProductsModel.updateOne({id: id}, {$set: {title: title}})
-
-        return result.matchedCount === 1
+    async updateProduct(id: string, title: string): Promise<ProductDBType | null> {
+        return await ProductsModel.findByIdAndUpdate({_id: id}, {title: title}).lean()
     },
 
-    async deleteProduct(id: number): Promise<Boolean> {
-        const result = await ProductsModel.deleteOne({id: id})
-        return result.deletedCount === 1
+    async deleteProduct(id: string): Promise<Boolean> {
+        const result = await ProductsModel.findByIdAndDelete(id)
+        return result !== null
     }
 }

@@ -1,13 +1,20 @@
-import mongoose from "mongoose"
+import mongoose, { Types, Schema } from "mongoose"
 import { EmailConfirmationType, FeedbackDBType, ProductDBType, SentEmailType, UserAccountDBType, UserAccountType } from "./db-types.js"
 
+// Products
+
+export const productSchema = new mongoose.Schema<ProductDBType>({
+    title: String
+})
+
+// Users
+
 export const userAccountSchema = new mongoose.Schema<UserAccountType>({
-    id: Number,
     email: String,
     userName: String,
     passwordHash: String,
     createdAt: Date
-})
+}, { _id: false })
 
 export const sentEmailSchema = new mongoose.Schema<SentEmailType>({
     sentDate: Date
@@ -25,18 +32,10 @@ export const userSchema = new mongoose.Schema<UserAccountDBType>({
     emailConfirmation: emailConfirmationSchema
 })
 
-/////////////////////////////////
-
-export const productSchema = new mongoose.Schema<ProductDBType>({
-    id: Number,
-    title: String
-})
-
-/////////////////////////////////
+// Feedbacks
 
 export const feedbackSchema = new mongoose.Schema<FeedbackDBType>({
-    id: Number,
     comment: String,
-    userId: Number,
+    userId: { type: Schema.Types.ObjectId },
     createdAt: Date
 })

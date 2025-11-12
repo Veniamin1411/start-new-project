@@ -1,4 +1,7 @@
 import { WithId } from "mongodb"
+import { Types } from "mongoose"
+
+// Products
 
 export type ProductInMemoryType = {
     id: number
@@ -6,22 +9,17 @@ export type ProductInMemoryType = {
 }
 
 export type ProductDBType = WithId<{
-    id: number
     title: string
 }>
 
+// Users
+
 export type UserAccountType = {
-    id: number
     email: string
     userName: string
     passwordHash: string
     createdAt: Date
 }
-
-export type UserAccountDBType = WithId<{
-    accountData: UserAccountType,
-    emailConfirmation: EmailConfirmationType,
-}>
 
 export type EmailConfirmationType = {
     isConfirmed: boolean
@@ -34,13 +32,15 @@ export type SentEmailType = {
     sentDate: Date
 }
 
-export type FeedbackDBType = WithId<{
-    id: number
-    comment: string
-    userId: number
-    createdAt: Date
+export type UserAccountDBType = WithId<{
+    accountData: UserAccountType
+    emailConfirmation: EmailConfirmationType
 }>
 
-export type RegistrationDataType = {
-    ip: string
-}
+// Feedbacks
+
+export type FeedbackDBType = WithId<{
+    comment: string
+    userId: Types.ObjectId
+    createdAt: Date
+}>

@@ -1,50 +1,33 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 import { productsService } from "../domain/products-service.js"; 
-import { inputValidationMiddleware } from "../middlewares/input-validation-middleware.js";
-import { body } from "express-validator";
 import { ProductDBType } from "../repositories/db-types.js"; 
 
 export const productsRouter = Router({})
 
-const titleValidation = body('title').trim().isLength({min: 3, max: 30}).withMessage('Title length should be form 3 to 10 symbols')
-
-productsRouter.get('/', async (req, res) => {
-    const foundProducts: ProductDBType[] = await productsService.findProducts(req.query.title?.toString())
-    res.send(foundProducts)
+productsRouter.get('/', async (req: Request, res: Response) => {
+    const products = await productsService.getAllProducts()
+    res.status(200).send(products)
 })
 
-productsRouter.get('/:id', async (req, res) => {
-    let foundProductById: ProductDBType | null = await productsService.findProductById(+req.params.id)
-
-    if (foundProductById) {
-        res.send(foundProductById)
-    } else {
-        res.sendStatus(404)
-    }
+productsRouter.get('/:id', async (req: Request, res: Response) => {
+    const product = await productsService.getProductById(req.params.id!)
+    if (!product) return res.sendStatus(404)
+    res.status(200).send(product)
 })
 
-productsRouter.post('/', titleValidation, inputValidationMiddleware, async (req, res) => {
-    debugger
-    const newProduct: ProductDBType = await productsService.createProduct(req.body.title)
-    res.status(201).send(newProduct)
+productsRouter.post('/', async (req: Request, res: Response) => {
+    const product = await productsService.createProduct(req.body.title)
+    res.status(201).send(product)
 })
 
-productsRouter.put('/:id', titleValidation, inputValidationMiddleware, async (req, res) => {
-    const isProductUpdated = await productsService.updateProduct(+req.params.id!, req.body.title)
-        
-    if (isProductUpdated) {
-        const updatedProduct = productsService.findProductById(+req.params.id!)
-        res.send(updatedProduct)
-    } else {
-        res.sendStatus(404) 
-    }
+productsRouter.put('/:id', async (req: Request, res: Response) => {
+    const result = await productsService.updateProduct(req.params.id!, req.body.title)
+    if (!result) return res.sendStatus(400)
+    res.status(200).send(result)
 })
 
-productsRouter.delete('/:id', async (req, res) => {
-    const isProductDeleted = await productsService.deleteProduct(+req.params.id)
-    if (isProductDeleted) {
-      res.sendStatus(204)
-    } else {
-        res.sendStatus(404)
-    }
+productsRouter.delete('/:id', async (req: Request, res: Response) => {
+    const result = await productsService.deleteProduct(req.params.id!)
+    if (!result) return res.sendStatus(404)
+    res.sendStatus(204)
 })

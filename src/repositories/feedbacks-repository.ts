@@ -1,4 +1,4 @@
-import { ObjectId } from "mongodb";
+import { Types } from "mongoose";
 import { FeedbacksModel } from "./db.js";
 import { FeedbackDBType } from "./db-types.js";
 
@@ -7,10 +7,9 @@ export const feedbacksRepository = {
         return FeedbacksModel.find({}).lean()
     },
 
-    async createFeedback(comment: string, userId: number): Promise<FeedbackDBType> {
+    async createFeedback(comment: string, userId: Types.ObjectId): Promise<FeedbackDBType> {
         const newFeedback: FeedbackDBType = {
-            _id: new ObjectId,
-            id: +(new Date()),
+            _id: new Types.ObjectId(),
             comment,
             userId,
             createdAt: new Date()

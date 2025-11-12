@@ -3,29 +3,27 @@ import { ProductDBType } from "../repositories/db-types.js"
 import { ObjectId } from 'mongodb'
 
 export const productsService = {
-    async findProducts(title: string | null | undefined): Promise<ProductDBType[]> {
-        return productsRepository.findProducts(title)
+    async getAllProducts(): Promise<ProductDBType[]> {
+        return productsRepository.getAllProducts()
     },
 
-    async findProductById(id: number): Promise<ProductDBType | null> {
-        return productsRepository.findProductById(id)
+    async getProductById(id: string): Promise<ProductDBType | null> {
+        return productsRepository.getProductById(id)
     },
 
     async createProduct(title: string): Promise<ProductDBType> {
-        const newProduct = {
-            _id: new ObjectId,
-            id: +(new Date()),
+        const product = {
+            _id: new ObjectId(),
             title: title
         }
-        const createdProduct = await productsRepository.createProduct(newProduct)
-        return createdProduct
+        return await productsRepository.createProduct(product)
     },
 
-    async updateProduct(id: number, title: string): Promise<Boolean> {
+    async updateProduct(id: string, title: string): Promise<ProductDBType | null> {
         return await productsRepository.updateProduct(id, title)
     },
 
-    async deleteProduct(id: number): Promise<Boolean> {
+    async deleteProduct(id: string): Promise<Boolean> {
         return await productsRepository.deleteProduct(id)
     }
 }
