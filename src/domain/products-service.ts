@@ -4,11 +4,11 @@ import { ObjectId } from 'mongodb'
 
 export const productsService = {
     async getAllProducts(): Promise<ProductDBType[]> {
-        return productsRepository.getAllProducts()
+        return await productsRepository.getAllProducts()
     },
 
     async getProductById(id: string): Promise<ProductDBType | null> {
-        return productsRepository.getProductById(id)
+        return await productsRepository.getProductById(id)
     },
 
     async createProduct(title: string): Promise<ProductDBType> {

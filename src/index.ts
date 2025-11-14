@@ -14,11 +14,11 @@ const jsonBodyMiddleware = bodyParser.json()
 app.use(jsonBodyMiddleware)
 
 app.use(express.json())
-app.use('/addresses', addressesRouter)
 app.use('/products', productsRouter)
 app.use('/users', usersRouter)
 app.use('/auth', authRouter)
 app.use('/feedbacks', feedbacksRouter)
+app.use('/addresses', addressesRouter)
 
 const startApp = async () => {
     await runDb()

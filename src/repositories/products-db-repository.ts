@@ -15,7 +15,7 @@ export const productsRepository = {
     },
 
     async updateProduct(id: string, title: string): Promise<ProductDBType | null> {
-        return await ProductsModel.findByIdAndUpdate({_id: id}, {title: title}).lean()
+        return await ProductsModel.findByIdAndUpdate(id, { $set: { title } }, { new: true }).lean()
     },
 
     async deleteProduct(id: string): Promise<Boolean> {

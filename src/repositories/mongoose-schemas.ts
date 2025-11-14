@@ -1,5 +1,5 @@
 import mongoose, { Types, Schema } from "mongoose"
-import { EmailConfirmationType, FeedbackDBType, ProductDBType, SentEmailType, UserAccountDBType, UserAccountType } from "./db-types.js"
+import { AddressDBType, EmailConfirmationType, FeedbackDBType, ProductDBType, SentEmailType, UserAccountDBType, UserAccountType } from "./db-types.js"
 
 // Products
 
@@ -38,4 +38,14 @@ export const feedbackSchema = new mongoose.Schema<FeedbackDBType>({
     comment: String,
     userId: { type: Schema.Types.ObjectId },
     createdAt: Date
+})
+
+// Addresses
+
+export const addressSchema = new mongoose.Schema<AddressDBType>({
+    country: String,
+    region: String,
+    city: String,
+    street: String,
+    houseNumber: String
 })

@@ -1,6 +1,5 @@
 import { Router, Request, Response } from "express";
 import { productsService } from "../domain/products-service.js"; 
-import { ProductDBType } from "../repositories/db-types.js"; 
 
 export const productsRouter = Router({})
 

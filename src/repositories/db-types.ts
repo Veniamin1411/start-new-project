@@ -44,3 +44,13 @@ export type FeedbackDBType = WithId<{
     userId: Types.ObjectId
     createdAt: Date
 }>
+
+// Addresses
+
+export type AddressDBType = WithId<{
+    country: string
+    region: string
+    city: string
+    street: string
+    houseNumber: string
+}>

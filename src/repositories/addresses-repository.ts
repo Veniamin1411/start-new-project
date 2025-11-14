@@ -1,12 +1,25 @@
-const addresses = [{id: 1, value: 'Sadova 15'}, {id: 2, value: 'Tsentralna 150'}]
+import { AddressDBType } from "./db-types.js";
+import { AddressesModel } from "./db.js";
 
 export const addressesRepository = {
-    findAddresses() {
-        return addresses
+    async getAllAddresses(): Promise<AddressDBType[]> {
+        return await AddressesModel.find({}).lean()
     },
 
-    findAddressById(id: number) {
-        let foundAddress = addresses.find(p => p.id === id)
-        return foundAddress
+    async getAddressById(id: string): Promise<AddressDBType | null> {
+        return await AddressesModel.findById(id)
+    },
+
+    async createAddress(address: AddressDBType): Promise<AddressDBType> {
+        return await AddressesModel.create(address)
+    },
+
+    async updateAddress(id: string, updateData: Omit<AddressDBType, "_id">): Promise<AddressDBType | null> {
+        return await AddressesModel.findByIdAndUpdate(id, updateData, { new: true })
+    },
+
+    async deleteAddress(id: string): Promise<Boolean> {
+        const result = await AddressesModel.findByIdAndDelete(id)
+        return result !== null
     }
 }
