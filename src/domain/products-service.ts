@@ -12,7 +12,7 @@ export const productsService = {
     },
 
     async createProduct(title: string): Promise<ProductDBType> {
-        const product = {
+        const product: ProductDBType = {
             _id: new ObjectId(),
             title: title
         }

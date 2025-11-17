@@ -1,21 +1,20 @@
 import { usersRepository } from '../repositories/users-repository.js'
 import { UserAccountDBType } from '../repositories/db-types.js' 
-import { ObjectId } from 'mongodb'
 
 export const usersService = {
     async getAllUsers(): Promise<UserAccountDBType[]> {
-        return usersRepository.getAllUsers()
+        return await usersRepository.getAllUsers()
     },
     
-    async findUserById(id: ObjectId): Promise<UserAccountDBType | null> {
-        return usersRepository.findUserById(id)
+    async getUserById(id: string): Promise<UserAccountDBType | null> {
+        return await usersRepository.getUserById(id)
     },
 
-    async updateUser(id: ObjectId, updateData: Partial<UserAccountDBType>): Promise<boolean> {
-        return usersRepository.updateUser(id, updateData)
+    async updateUser(id: string, updateData: Partial<Omit<UserAccountDBType, "_id">>): Promise<UserAccountDBType | null> {
+        return await usersRepository.updateUser(id, updateData)
     },
 
-    async deleteUser(id: ObjectId): Promise<boolean> {
-        return usersRepository.deleteUser(id)
+    async deleteUser(id: string): Promise<Boolean> {
+        return await usersRepository.deleteUser(id)
     }
 }

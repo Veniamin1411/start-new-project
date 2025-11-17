@@ -4,36 +4,28 @@ import { ObjectId } from "mongodb"
 
 export const usersRepository = {
     async getAllUsers(): Promise<UserAccountDBType[]> {
-        const users = await UsersModel.find({}).lean()
-        return users
+        return await UsersModel.find({}).lean()
+    },
+
+    async getUserById(id: string): Promise<UserAccountDBType | null> {
+        return await UsersModel.findById(id).lean()
     },
 
     async createUser(user: UserAccountDBType): Promise<UserAccountDBType> {
-        await UsersModel.insertOne(user)
-        return user
+        return await UsersModel.create(user)
     },
 
-    async findUserById(id: ObjectId): Promise<UserAccountDBType | null> {
-        const user = await UsersModel.findOne({_id: id}).lean<UserAccountDBType>()
-        if (user) {
-            return user
-        } else {
-            return null
-        }
+    async updateUser(id: string, updateData: Partial<Omit<UserAccountDBType, "_id">>): Promise<UserAccountDBType | null> {
+        return await UsersModel.findByIdAndUpdate(id, { $set: updateData }, { new: true })
     },
 
-    async updateUser(id: ObjectId, updateData: Partial<UserAccountDBType>): Promise<boolean> {
-        const result = await UsersModel.updateOne({_id: id}, {$set: updateData})
-        return result.modifiedCount === 1
-    },
-
-    async deleteUser(id: ObjectId): Promise<boolean> {
-        const result = await UsersModel.deleteOne({_id: id})
-        return result.deletedCount === 1
+    async deleteUser(id: string): Promise<Boolean> {
+        const result = await UsersModel.findByIdAndDelete(id)
+        return result !== null   
     },
 
     async findByLoginOrEmail(loginOrEmail: string) {
-        const user = await UsersModel.findOne({ $or: [{'accountData.email': loginOrEmail}, {'accountData.userName': loginOrEmail}]})
+        const user = await UsersModel.findOne({ $or: [{'accountData.email': loginOrEmail}, {'accountData.userName': loginOrEmail}]}).lean()
         return user
     },
 
@@ -43,8 +35,8 @@ export const usersRepository = {
     },
 
     async updateConfirmation(id: ObjectId) {
-        let result = await UsersModel.updateOne({id}, {$set: {'emailConfirmation.isConfirmed': true}})
-        return result.modifiedCount === 1
+        const result = await UsersModel.findByIdAndUpdate(id, {$set: {'emailConfirmation.isConfirmed': true}})
+        return result !== null
     }
 }
 

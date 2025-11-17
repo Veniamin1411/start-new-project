@@ -19,26 +19,17 @@ export const authService = {
             emailConfirmation: {
                 confirmationCode: uuidv4(),
                 expirationDate: add(new Date(), {
-                    hours: 1,
-                    minutes: 3
+                    hours: 3,
                 }),
                 isConfirmed: false,
                 sentEmails: []
             }
         }
-        const createResult = await usersRepository.createUser(user)
-        // try {
-        //     await emailsManager.sendEmailConfirmationMessage(user)
-        // } catch(error) {
-        //     console.error(error)
-        //     await usersRepository.deleteUser(user._id)
-        //     return null
-        // }
-        return createResult
+        return await usersRepository.createUser(user)
     },
 
     async confirmEmail(code: string): Promise<boolean> {
-        let user = await usersRepository.findUserByConfirmationCode(code)
+        const user = await usersRepository.findUserByConfirmationCode(code)
         if (!user) return false
         if (user.emailConfirmation.isConfirmed) return false
         if (user.emailConfirmation.confirmationCode !== code) return false

@@ -1,10 +1,10 @@
-import { Request, Response, Router } from "express";
+import { Router, Request, Response } from "express";
 import { jwtService } from "../application/jwt-service.js";
 import { authService } from "../domain/auth-service.js";
 
 export const authRouter = Router({})
 
-authRouter.post('/registration', async (req, res) => {
+authRouter.post('/registration', async (req: Request, res: Response) => {
     const user = await authService.createUser(req.body.login, req.body.email, req.body.password)
     if (user) {
         const token = await jwtService.createJWT(user)
@@ -24,7 +24,7 @@ authRouter.post('/login', async (req: Request, res: Response) => {
     }
 })
 
-authRouter.post('/confirm-email', async (req, res) => {
+authRouter.post('/confirm-email', async (req: Request, res: Response) => {
     const result = await authService.confirmEmail(req.body.code)
     if (result) {
         res.sendStatus(201)
@@ -33,7 +33,7 @@ authRouter.post('/confirm-email', async (req, res) => {
     }
 })
 
-authRouter.post('/resend-registration-code', async (req, res) => {
+authRouter.post('/resend-registration-code', async (req: Request, res: Response) => {
     const result = await authService.confirmEmail(req.body.email)
     if (result) {
         res.sendStatus(201)

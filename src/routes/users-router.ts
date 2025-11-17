@@ -1,24 +1,27 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 import { usersService } from '../domain/users-service.js'
-import { authService } from "../domain/auth-service.js";
-import { ObjectId } from "mongodb";
+import { usersInputValidationMiddleware } from "../middlewares/users-input-validation-middleware.js";
 
 export const usersRouter = Router({})
 
-usersRouter.get('/', async (req, res) => {
+usersRouter.get('/', async (req: Request, res: Response) => {
     const users = await usersService.getAllUsers()
-    res.send(users)
+    res.status(200).send(users)
 })
 
-usersRouter.put('/:id', async (req, res) => {
-    const id = new ObjectId(req.params.id)
-    const updateData = req.body
+usersRouter.get('/:id', async (req: Request, res: Response) => {
+    const user = await usersService.getUserById(req.params.id!)
+    if (!user) return res.sendStatus(404)
+    res.status(200).send(user)
+})
 
-    const isUpdated = await usersService.updateUser(id, updateData)
+usersRouter.put('/:id', usersInputValidationMiddleware, async (req: Request, res: Response) => {
+    const result = await usersService.updateUser(req.params.id!, req.body)
+    res.status(200).send(result)
+})
 
-    if (!isUpdated) {
-        return res.status(404).send()
-    } else {
-        return res.status(204).send()
-    }
+usersRouter.delete('/:id', async (req: Request, res: Response) => {
+    const result = await usersService.deleteUser(req.params.id!)
+    if(!result) return res.sendStatus(404)
+    res.sendStatus(204)
 })

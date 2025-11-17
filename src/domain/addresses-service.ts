@@ -12,7 +12,7 @@ export const addressesService = {
     },
 
     async createAddress(createData: Omit<AddressDBType, "_id">): Promise<AddressDBType> {
-        const address = {
+        const address: AddressDBType = {
             _id: new ObjectId(),
             ...createData
         }
